@@ -123,7 +123,7 @@ def analyze():
         overview, correlation_matrix, pollution_sources, df = analyze_data(file)
         
         # Save the correlation matrix plot as an image
-        image_filename = f"frontend/static/{uuid.uuid4()}.png"
+        image_filename = f"../frontend/static/{uuid.uuid4()}.png"
         save_plot_as_image(pd.DataFrame(correlation_matrix), image_filename, 'heatmap')
         
         # Save boxplot images
@@ -131,7 +131,7 @@ def analyze():
         for param in parameters[:4]:  # Limiting to 4 for readability
             avg_col = f"Avg_{param.split()[0]}"
             if avg_col in df.columns:
-                boxplot_filename = f"frontend/static/{uuid.uuid4()}.png"
+                boxplot_filename = f"../frontend/static/{uuid.uuid4()}.png"
                 save_plot_as_image(df, boxplot_filename, 'boxplot', x='Type Water Body', y=avg_col, title=f'{param} by Water Body Type')
                 boxplot_filenames.append(boxplot_filename)
         
@@ -140,7 +140,7 @@ def analyze():
         for param in parameters[:4]:  # Limiting to 4 for readability
             avg_col = f"Avg_{param.split()[0]}"
             if avg_col in df.columns:
-                barplot_filename = f"frontend/static/{uuid.uuid4()}.png"
+                barplot_filename = f"../frontend/static/{uuid.uuid4()}.png"
                 save_plot_as_image(df, barplot_filename, 'barplot', x='State Name', y=avg_col, title=f'Average {param} by State')
                 barplot_filenames.append(barplot_filename)
         
@@ -148,15 +148,15 @@ def analyze():
             "overview": overview,
             "correlation_matrix": correlation_matrix,
             "pollution_sources": pollution_sources,
-            "image_url": f"frontend/static/{os.path.basename(image_filename)}",
-            "boxplot_urls": [f"frontend/static/{os.path.basename(filename)}" for filename in boxplot_filenames],
-            "barplot_urls": [f"frontend/static/{os.path.basename(filename)}" for filename in barplot_filenames]
+            "image_url": f"../frontend/static/{os.path.basename(image_filename)}",
+            "boxplot_urls": [f"../frontend/static/{os.path.basename(filename)}" for filename in boxplot_filenames],
+            "barplot_urls": [f"../frontend/static/{os.path.basename(filename)}" for filename in barplot_filenames]
         })
     except Exception as e:
         print(f"Error occurred: {e}")
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    if not os.path.exists('frontend/static'):
-        os.makedirs('frontend/static')
+    if not os.path.exists('../frontend/static'):
+        os.makedirs('../frontend/static')
     app.run(debug=True)
